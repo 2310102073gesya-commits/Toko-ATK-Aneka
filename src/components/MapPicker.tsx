@@ -129,13 +129,12 @@ export default function MapPicker({ onLocationSelect, defaultLocation }: MapPick
       </p>
 
       {/* ===== Peta Leaflet ===== */}
-      <div style={{ height: 280, width: "100%", borderRadius: 12, overflow: "hidden", border: "1px solid #ECEAE3", position: "relative" }}>
+      <div style={{ height: 280, width: "100%", borderRadius: 12, overflow: "hidden", border: "1px solid #ECEAE3", position: "relative" }} onClick={() => setShowDropdown(false)}>
         <MapContainer
           center={[center.lat, center.lng]}
           zoom={13}
           scrollWheelZoom
           style={{ height: "100%", width: "100%" }}
-          onClick={() => setShowDropdown(false)}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
