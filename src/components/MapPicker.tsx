@@ -57,7 +57,7 @@ export default function MapPicker({ onLocationSelect, defaultLocation }: MapPick
   const [hasil, setHasil] = useState<HasilGeo[]>([]);
   const [loadingCari, setLoadingCari] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>();
+  const debounceRef = useRef<any>(null);
 
   // Debounce pencarian alamat
   useEffect(() => {
