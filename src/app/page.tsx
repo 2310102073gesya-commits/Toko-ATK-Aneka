@@ -1,8 +1,4 @@
-"use client";
-
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 const KONTAK = {
   waAdmin: "6282189333923",
@@ -19,18 +15,6 @@ const IcoPin   = () => <svg width={16} height={16} viewBox="0 0 24 24" fill="non
 const IcoIg    = () => <svg width={22} height={22} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/></svg>;
 
 export default function LandingPage() {
-  const router = useRouter();
-  const [ketuk, setKetuk] = useState(0);
-
-  const ketukLogo = () => {
-    const n = ketuk + 1;
-    setKetuk(n);
-    if (n >= 5) {
-      setKetuk(0);
-      router.push("/login");
-    }
-  };
-
   const waLink = `https://wa.me/${KONTAK.waAdmin}?text=${encodeURIComponent(KONTAK.waText)}`;
 
   const TAUTAN = [
@@ -75,8 +59,8 @@ export default function LandingPage() {
       padding: "50px 20px 30px",
     }}>
 
-      {/* Logo Aneka — ketuk 5x untuk masuk area Owner */}
-      <div onClick={ketukLogo} style={{ marginBottom: 6, textAlign: "center", userSelect: "none", cursor: "default" }}>
+      {/* Logo Aneka */}
+      <div style={{ marginBottom: 6, textAlign: "center", userSelect: "none" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 7, marginBottom: 2 }}>
           <span style={{ width: 30, height: 1, background: "rgba(30,42,61,0.3)" }} />
           <span style={{ color: "#C9A24B", fontSize: 11 }}>▶</span>
@@ -154,13 +138,6 @@ export default function LandingPage() {
       <p style={{ color: "#b3a78f", fontSize: 11, marginTop: 34 }}>
         © 2026 Toko Aneka · Balikpapan
       </p>
-
-      {/* Petunjuk rahasia */}
-      {ketuk > 0 && ketuk < 5 && (
-        <p style={{ color: "#cbbfa6", fontSize: 10, marginTop: 4 }}>
-          {5 - ketuk} ketukan lagi untuk area owner…
-        </p>
-      )}
     </div>
   );
 }
