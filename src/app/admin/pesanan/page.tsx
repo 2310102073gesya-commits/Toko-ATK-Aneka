@@ -163,7 +163,7 @@ export default function PesananMasukPage() {
                   <div style={{ fontSize: 12.5, color: "#444", marginBottom: 10, padding: "10px 12px", background: "#F4ECDF", borderRadius: 10, border: "1px solid #E3D6BF" }}>
                     <div style={{ fontWeight: 700, fontSize: 11, color: "#7a6f5d", letterSpacing: 0.5, marginBottom: 6 }}>BARANG BELANJAAN:</div>
                     {o.items.map((item: any, idx: number) => (
-                      <div key={idx} style={{ display: "flex", justifySpace: "between", justifyContent: "space-between", marginBottom: 3 }}>
+                      <div key={idx} style={{ display: "flex", justifyContent: "space-between", marginBottom: 3 }}>
                         <span>• {item.nama} <span style={{ color: "#888", fontSize: 11 }}>x{item.qty}</span></span>
                         <span style={{ fontWeight: 600 }}>{RP(item.harga * item.qty)}</span>
                       </div>
