@@ -73,6 +73,9 @@ export default function TokoPage() {
         {error && (
           <div style={{ background: "#FDECEC", color: "#BC4749", padding: 12, borderRadius: 10, marginBottom: 16, fontSize: 13, fontWeight: 600 }}>
             Gagal memuat produk: {error}
+            <div style={{ fontSize: 10, marginTop: 6, opacity: 0.8, fontFamily: "monospace", color: "#8b2626", borderTop: "1px dashed rgba(188,71,73,0.3)", paddingTop: 6 }}>
+              Debug API: URL={process.env.NEXT_PUBLIC_SUPABASE_URL || "KOSONG"} | Key={process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? `${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY.substring(0, 10)}... (panjang: ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY.length})` : "KOSONG"}
+            </div>
           </div>
         )}
 
