@@ -47,3 +47,42 @@ body {
   to { transform: rotate(360deg); }
 }
 .spin { animation: spin 0.8s linear infinite; }
+
+/* ===== RESPONSIVE UTILITIES ===== */
+@media (max-width: 768px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
+  .show-on-mobile {
+    display: block !important;
+  }
+  .flex-on-mobile {
+    display: flex !important;
+  }
+  .grid-mobile-1 {
+    grid-template-columns: 1fr !important;
+  }
+  .table-responsive {
+    display: block !important;
+  }
+  .table-responsive-row {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+    padding: 14px 16px !important;
+    border-bottom: 1px solid #f4f1ea !important;
+  }
+  .table-responsive-header {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .show-on-mobile {
+    display: none !important;
+  }
+  .flex-on-mobile {
+    display: none !important;
+  }
+}

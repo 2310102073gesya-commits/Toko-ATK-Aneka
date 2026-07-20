@@ -4,6 +4,7 @@ import AdminGuard from "@/components/AdminGuard";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import { useState, useEffect } from "react";
 
 const RP = (n: number) => "Rp" + Math.round(n).toLocaleString("id-ID");
 
@@ -42,6 +43,22 @@ const MENU = [
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
+  const [isMobile, setIsMobile] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    const cekUkuran = () => {
+      setIsMobile(window.innerWidth < 992);
+    };
+    cekUkuran();
+    window.addEventListener("resize", cekUkuran);
+    return () => window.removeEventListener("resize", cekUkuran);
+  }, []);
+
+  // Tutup sidebar otomatis jika berpindah halaman di mobile
+  useEffect(() => {
+    setIsSidebarOpen(false);
+  }, [pathname]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -53,10 +70,34 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <AdminGuard>
-      <div style={{ display: "flex", minHeight: "100vh", fontFamily: "'Times New Roman', Times, serif" }}>
+      <div style={{ display: "flex", minHeight: "100vh", fontFamily: "'Times New Roman', Times, serif", position: "relative" }}>
+
+        {/* Backdrop overlay di mobile */}
+        {isMobile && isSidebarOpen && (
+          <div
+            onClick={() => setIsSidebarOpen(false)}
+            style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 90 }}
+          />
+        )}
 
         {/* ===== SIDEBAR ===== */}
-        <aside style={{ width: 230, background: "#1E2A3D", color: "white", flexShrink: 0, position: "sticky", top: 0, height: "100vh", overflowY: "auto", display: "flex", flexDirection: "column" }}>
+        <aside style={{
+          width: 230,
+          background: "#1E2A3D",
+          color: "white",
+          flexShrink: 0,
+          position: isMobile ? "fixed" : "sticky",
+          left: isMobile ? (isSidebarOpen ? 0 : -230) : 0,
+          top: 0,
+          bottom: 0,
+          height: "100vh",
+          overflowY: "auto",
+          display: "flex",
+          flexDirection: "column",
+          zIndex: 100,
+          transition: "left 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          boxShadow: isMobile && isSidebarOpen ? "4px 0 24px rgba(0,0,0,0.25)" : "none"
+        }}>
 
           {/* Logo + Badge */}
           <div style={{ padding: "18px 16px", borderBottom: "1px solid rgba(255,255,255,0.1)", textAlign: "center" }}>
@@ -101,17 +142,25 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </aside>
 
         {/* ===== KONTEN KANAN ===== */}
-        <main style={{ flex: 1, minWidth: 0, background: "#FAFAF7", display: "flex", flexDirection: "column" }}>
+        <main style={{ flex: 1, minWidth: 0, background: "#FAFAF7", display: "flex", flexDirection: "column", paddingLeft: isMobile ? 0 : 0 }}>
 
           {/* Top Header */}
-          <div style={{ background: "white", borderBottom: "1px solid #ECEAE3", padding: "14px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", position: "sticky", top: 0, zIndex: 10 }}>
-            <div>
+          <div style={{ background: "white", borderBottom: "1px solid #ECEAE3", padding: "14px 20px", display: "flex", alignItems: "center", gap: 12, position: "sticky", top: 0, zIndex: 10 }}>
+            {isMobile && (
+              <button
+                onClick={() => setIsSidebarOpen(true)}
+                style={{ background: "none", border: "none", fontSize: 24, cursor: "pointer", color: "#1E2A3D", padding: "4px 8px", marginLeft: -8, display: "flex", alignItems: "center" }}
+              >
+                ☰
+              </button>
+            )}
+            <div style={{ flex: 1 }}>
               <h1 style={{ margin: 0, fontSize: 18, color: "#1E2A3D", fontWeight: 800 }}>{activeItem?.label}</h1>
               <div style={{ fontSize: 11.5, color: "#5A6B7B" }}>Toko Aneka — Balikpapan</div>
             </div>
           </div>
 
-          <div style={{ padding: 20, flex: 1 }}>
+          <div style={{ padding: isMobile ? 12 : 20, flex: 1 }}>
             {children}
           </div>
         </main>

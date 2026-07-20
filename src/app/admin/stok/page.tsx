@@ -109,7 +109,7 @@ function KartuStok({ p, saving, saved, tambahJumlah, setTambahJumlah, updateStok
       </div>
 
       {/* Baris Tambah Restock */}
-      <div style={{ marginTop: 10, display: "flex", alignItems: "center", gap: 8, paddingTop: 10, borderTop: "1px solid #f4f1ea" }}>
+      <div style={{ marginTop: 10, display: "flex", alignItems: "center", gap: 8, paddingTop: 10, borderTop: "1px solid #f4f1ea", flexWrap: "wrap" }}>
         <span style={{ fontSize: 12, color: "#5A6B7B", fontWeight: 600, flexShrink: 0 }}>Tambah stok:</span>
 
         {/* Quick buttons */}

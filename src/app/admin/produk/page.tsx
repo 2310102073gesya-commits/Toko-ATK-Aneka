@@ -210,31 +210,54 @@ export default function AdminProdukPage() {
           <p>Belum ada produk. Klik "+ Tambah Produk" untuk mulai.</p>
         </div>
       ) : (
-        <div style={{ background: "white", borderRadius: 14, border: "1px solid #ECEAE3", overflow: "hidden" }}>
+        <div className="table-responsive" style={{ background: "white", borderRadius: 14, border: "1px solid #ECEAE3", overflow: "hidden" }}>
           {/* Header tabel */}
-          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 0.8fr 0.6fr 0.6fr 0.8fr", padding: "12px 16px", background: "#1E2A3D", color: "white", fontSize: 11.5, fontWeight: 700, letterSpacing: 0.5 }}>
+          <div className="table-responsive-header" style={{ display: "grid", gridTemplateColumns: "2fr 1.2fr 1fr 0.8fr 0.8fr 1fr", padding: "12px 16px", background: "#1E2A3D", color: "white", fontSize: 11.5, fontWeight: 700, letterSpacing: 0.5 }}>
             <span>PRODUK</span><span>KATEGORI</span><span style={{ textAlign: "right" }}>HARGA</span><span style={{ textAlign: "center" }}>STOK</span><span style={{ textAlign: "center" }}>TERJUAL</span><span style={{ textAlign: "right" }}>AKSI</span>
           </div>
           {products.map((p, i) => (
-            <div key={p.id} style={{ display: "grid", gridTemplateColumns: "2fr 1fr 0.8fr 0.6fr 0.6fr 0.8fr", padding: "10px 16px", fontSize: 13, background: i % 2 ? "#FBFAF6" : "white", alignItems: "center", borderBottom: "1px solid #f4f1ea" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div key={p.id} className="table-responsive-row" style={{ display: "grid", gridTemplateColumns: "2fr 1.2fr 1fr 0.8fr 0.8fr 1fr", padding: "10px 16px", fontSize: 13, background: i % 2 ? "#FBFAF6" : "white", alignItems: "center", borderBottom: "1px solid #f4f1ea" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, width: "100%" }}>
                 {p.image_url
                   // eslint-disable-next-line @next/next/no-img-element
-                  ? <img src={p.image_url} alt={p.nama_produk} style={{ width: 36, height: 36, objectFit: "cover", borderRadius: 8 }} />
-                  : <div style={{ width: 36, height: 36, background: "#FAFAF7", borderRadius: 8, display: "grid", placeItems: "center", fontSize: 18 }}>{p.emoji || "📦"}</div>
+                  ? <img src={p.image_url} alt={p.nama_produk} style={{ width: 36, height: 36, objectFit: "cover", borderRadius: 8, flexShrink: 0 }} />
+                  : <div style={{ width: 36, height: 36, background: "#FAFAF7", borderRadius: 8, display: "grid", placeItems: "center", fontSize: 18, flexShrink: 0 }}>{p.emoji || "📦"}</div>
                 }
-                <div>
-                  <div style={{ fontWeight: 600 }}>{p.nama_produk}</div>
-                  <div style={{ fontSize: 10.5, color: "#888" }}>{p.merek}</div>
+                <div style={{ minWidth: 0, flex: 1 }}>
+                  <div style={{ fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p.nama_produk}</div>
+                  <div style={{ fontSize: 10.5, color: "#888" }}>{p.merek || "Tanpa Merek"}</div>
+                  {/* Info tambahan khusus mobile */}
+                  <div className="show-on-mobile" style={{ fontSize: 11, color: "#5A6B7B", marginTop: 4 }}>
+                    Kategori: <b>{p.kategori}</b> · Terjual: <b>{p.terjual || 0}</b>
+                  </div>
                 </div>
               </div>
-              <span style={{ color: "#5A6B7B" }}>{p.kategori}</span>
-              <span style={{ textAlign: "right", fontWeight: 700, color: "#1E2A3D" }}>{RP(p.harga)}</span>
-              <span style={{ textAlign: "center" }}>
+              <span className="hide-on-mobile" style={{ color: "#5A6B7B" }}>{p.kategori}</span>
+              
+              {/* Harga */}
+              <div className="flex-on-mobile" style={{ justifyContent: "space-between", width: "100%", fontSize: 12.5 }}>
+                <span style={{ color: "#888" }}>Harga Jual:</span>
+                <span style={{ fontWeight: 700, color: "#1E2A3D" }}>{RP(p.harga)}</span>
+              </div>
+              <span className="hide-on-mobile" style={{ textAlign: "right", fontWeight: 700, color: "#1E2A3D" }}>{RP(p.harga)}</span>
+              
+              {/* Stok */}
+              <div className="flex-on-mobile" style={{ justifyContent: "space-between", width: "100%", fontSize: 12.5 }}>
+                <span style={{ color: "#888" }}>Stok:</span>
+                <span style={{ fontSize: 11, fontWeight: 800, padding: "2px 8px", borderRadius: 999, background: (p.stok || 0) <= AMBANG ? "#FDECEC" : "#EAF3EE", color: (p.stok || 0) <= AMBANG ? "#BC4749" : "#2D6A4F" }}>{p.stok}</span>
+              </div>
+              <span className="hide-on-mobile" style={{ textAlign: "center" }}>
                 <span style={{ fontSize: 11, fontWeight: 800, padding: "2px 8px", borderRadius: 999, background: (p.stok || 0) <= AMBANG ? "#FDECEC" : "#EAF3EE", color: (p.stok || 0) <= AMBANG ? "#BC4749" : "#2D6A4F" }}>{p.stok}</span>
               </span>
-              <span style={{ textAlign: "center", color: "#888" }}>{p.terjual || 0}x</span>
-              <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+              
+              <span className="hide-on-mobile" style={{ textAlign: "center", color: "#888" }}>{p.terjual || 0}x</span>
+              
+              {/* Aksi */}
+              <div className="flex-on-mobile" style={{ gap: 14, justifyContent: "flex-end", width: "100%", borderTop: "1px dashed #eee", paddingTop: 8, marginTop: 4 }}>
+                <button onClick={() => bukаEdit(p)} style={{ color: "#1E2A3D", fontSize: 12, fontWeight: 700, background: "none", border: "none", cursor: "pointer", textDecoration: "underline", fontFamily: "'Times New Roman', Times, serif" }}>Edit</button>
+                <button onClick={() => hapus(p.id, p.nama_produk)} style={{ color: "#BC4749", fontSize: 12, fontWeight: 700, background: "none", border: "none", cursor: "pointer", textDecoration: "underline", fontFamily: "'Times New Roman', Times, serif" }}>Hapus</button>
+              </div>
+              <div className="hide-on-mobile" style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
                 <button onClick={() => bukаEdit(p)} style={{ color: "#1E2A3D", fontSize: 12, fontWeight: 700, background: "none", border: "none", cursor: "pointer", textDecoration: "underline", fontFamily: "'Times New Roman', Times, serif" }}>Edit</button>
                 <button onClick={() => hapus(p.id, p.nama_produk)} style={{ color: "#BC4749", fontSize: 12, fontWeight: 700, background: "none", border: "none", cursor: "pointer", textDecoration: "underline", fontFamily: "'Times New Roman', Times, serif" }}>Hapus</button>
               </div>
