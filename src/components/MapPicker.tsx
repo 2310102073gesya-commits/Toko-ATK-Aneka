@@ -67,7 +67,7 @@ export default function MapPicker({ onLocationSelect, defaultLocation }: MapPick
     debounceRef.current = setTimeout(async () => {
       setLoadingCari(true);
       try {
-        const q = encodeURIComponent(cari + " Indonesia");
+        const q = encodeURIComponent(cari);
         const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${q}&format=json&limit=6&addressdetails=1&countrycodes=id`);
         const data = await res.json();
         setHasil(data);
